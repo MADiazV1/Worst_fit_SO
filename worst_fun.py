@@ -20,27 +20,27 @@ def worst_fit(memory, req, index):
   memory[worst_index] = (base + req, limit - req) # Actualizar la memoria reduciendo el espacio usado
 
   for i, (base, limit) in enumerate(memory):
-    print(base, limit)
+    # print(base, limit)
     if limit == 0:  # Si el limite de la nueva base es 0
       memory.remove((base, limit))  # Remover esa memoria
       if i == len(memory):  
-        worst_index = 0
+        worst_index = 0  # Si el que se elimino era el ultimo, se devuelve al primero
         break
 
-  print(memory)
-  print("-"*25)
-  print(base)
-  print("-"*25)
-  print(req)
-  print("-"*25)
-  print(worst_index)
-  print("-"*25)
+  # print(memory)
+  # print("-"*25)
+  # print(base)
+  # print("-"*25)
+  # print(req)
+  # print("-"*25)
+  # print(worst_index)
+  # print("-"*25)
 
   return memory, base, req, worst_index
 
-if __name__ == '__main__':
-  mem = [(0x00A00000, 0x000C0000), (0x00B00000, 0x000C0000), (0x00C00000, 0x000D0000)]
-  req = 0x000D0000
-  ind = 0
+# if __name__ == '__main__':
+#   mem = [(0x00A00000, 0x000C0000), (0x00B00000, 0x000C0000), (0x00C00000, 0x000D0000)]
+#   req = 0x000D0000
+#   ind = 0
 
-  worst_fit(mem, req, ind)
+#   worst_fit(mem, req, ind)
