@@ -43,14 +43,9 @@ if __name__ == '__main__':
   # req = [0x000a0000]
 
   memory = [
-    (0xa0000000, 0x00010000),
-    (0xb0000000, 0x00010000),
-    (0x10000000, 0x00090000),
-    (0xc0000000, 0x00060000),
-    (0xd0000000, 0x00010000),
-    (0x30000000, 0x00040000)
+    (0x00A00000, 0x000C0000), (0x00B00000, 0x000C0000), (0x00C00000, 0x000D0000)
   ]
-  reqs = [0x00050000, 0x00010000, 0xa0000000]
+  reqs = [0x000D0000]
   index = 0
 
   for req in reqs:
@@ -58,8 +53,9 @@ if __name__ == '__main__':
     # Imprimir la memoria antes de asignar
     print_memory(memory, req, "Tabla de Memoria Antes de worst_fit")
 
-    if worst_fit(memory, req, index) != None:
-      result, index = worst_fit(memory, req, index)
+    worst_result = worst_fit(memory, req, index)
+    if worst_result is not None:
+      result, index = worst_result
     else:
       result, index = None, None
 

@@ -1,6 +1,6 @@
 # Tests
 import unittest
-from main import worst_fit
+from worst_fun import worst_fit
 
 class TestBasicFirstFit(unittest.TestCase):
 
@@ -25,19 +25,64 @@ class TestBasicFirstFit(unittest.TestCase):
     search = worst_fit(work_memory, req, index)
     self.assertEqual(search, None)
 
-  def test_req_highest_list_2(self):
-    work_memory = [
-      (0xa0000000, 0x00010000),
-      (0xb0000000, 0x00010000),
-      (0x10000000, 0x00090000),
-      (0xc0000000, 0x00060000),
-      (0xd0000000, 0x00010000),
-      (0x30000000, 0x00040000)
-    ]
-    req = 0x00030000
+  def test_req_choose_last_index(self):
+    work_memory = [(0x00A00000, 0x000C0000), (0x00B00000, 0x000C0000), (0x00C00000, 0x000D0000)]
+    req = 0x000D0000
     index = 0
     search = worst_fit(work_memory, req, index)
-    self.assertEqual(search, (0x10030000, 2))
+    self.assertEqual(search[3], 0)
+
+  def test_req_choose_last_len(self):
+    work_memory = [(0x00A00000, 0x000C0000), (0x00B00000, 0x000C0000), (0x00C00000, 0x000D0000)]
+    req = 0x000D0000
+    index = 0
+    len_work_memory = len(work_memory)
+    search = worst_fit(work_memory, req, index)
+    self.assertEqual(len(search[0]), len_work_memory - 1)
+
+  def test_req_choose_middle_index(self):
+    work_memory = [(0x00A00000, 0x000C0000), (0x000B0000, 0x000D0000), (0x00C00000, 0x000C0000)]
+    req = 0x000D0000
+    index = len(work_memory) - 1
+    search = worst_fit(work_memory, req, index)
+    self.assertEqual(search[3], 1)
+
+  def test_req_choose_middle_len(self):
+    work_memory = [(0x00A00000, 0x000D0000), (0x000B0000, 0x000E0000), (0x00C00000, 0x000D0000)]
+    req = 0x000D0000 
+    index = len(work_memory) - 1
+    len_work_memory = len(work_memory)
+    search = worst_fit(work_memory, req, index)
+    self.assertEqual(len(search[0]), len_work_memory)
+
+  def test_req_choose_last_index_keep(self):
+    work_memory = [(0x00A00000, 0x000D0000), (0x00B00000, 0x000E0000), (0x00C00000, 0x000F0000)]
+    req = 0x000D0000
+    index = 0
+    search = worst_fit(work_memory, req, index)
+    self.assertEqual(search[3], 2)
+
+  def test_req_choose_last_len_keep(self):
+    work_memory = [(0x00A00000, 0x000D0000), (0x00B00000, 0x000E0000), (0x00C00000, 0x000F0000)]
+    req = 0x000D0000
+    index = 0
+    len_work_memory = len(work_memory)
+    search = worst_fit(work_memory, req, index)
+    self.assertEqual(len(search[0]), len_work_memory)
+
+  def test_req_choose_worst_fit_len(self):
+    work_memory = [(0x00A00000, 0x000D0A0), (0x00B00000, 0x000D000A), (0x00C00000, 0x000D0000)]
+    req = 0x000D0000
+    index = 0
+    search = worst_fit(work_memory, req, index)
+    self.assertEqual(len(search[0]), len(work_memory))
+
+  def test_req_choose_worst_fit_index(self):
+    work_memory = [(0x00A00000, 0x000D0A00), (0x00B00000, 0x000D000A), (0x00C00000, 0x000D0000)]
+    req = 0x000D0000
+    index = 0
+    search = worst_fit(work_memory, req, index)
+    self.assertEqual(search[3], 0)
 
 if __name__ == '__main__':
   unittest.main()
